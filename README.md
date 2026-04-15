@@ -14,6 +14,5 @@ Analyze food price trends in Egypt and build a model to predict prices.
 5. Evaluation
 
 ## Team Members
-- Your Name
 - Abdelrahman Ali Henedi
 - Osama Reda Teama
