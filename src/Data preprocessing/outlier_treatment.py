@@ -8,12 +8,9 @@ output_file = os.path.join(BASE_DIR, '../../Data/preprocessed/final_cleaned_data
 df = pd.read_csv(input_file)
 
 df['Date'] = pd.to_datetime(df['Date'])
-if 'Year' not in df.columns:
-    df['Year'] = df['Date'].dt.year
 
 def clean_outliers_preserving_order(data):
-   
-    grouped = data.groupby(['Product', 'Year'])['Price']
+    grouped = data.groupby(['Product', data['Date'].dt.year])['Price']
 
     q1 = grouped.transform(lambda x: x.quantile(0.25))
     q3 = grouped.transform(lambda x: x.quantile(0.75))
@@ -29,6 +26,8 @@ def clean_outliers_preserving_order(data):
 print(f"Shape before cleaning: {df.shape}")
 df_final = clean_outliers_preserving_order(df)
 print(f"Shape after cleaning: {df_final.shape}")
+
+df_final['Date'] = df_final['Date'].dt.strftime('%b-%Y')
 
 df_final.to_csv(output_file, index=False)
 print(f"Success! Cleaned data saved at: {output_file}")
